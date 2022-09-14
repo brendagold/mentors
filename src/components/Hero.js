@@ -1,6 +1,10 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography, IconButton } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import CoPresentIcon from '@mui/icons-material/CoPresent';
+import AllOutIcon from '@mui/icons-material/AllOut';
 import React from "react";
 import Image from "../images/mentors.png";
+
 
 const styles = {
   paperContainer: {
@@ -27,7 +31,6 @@ const Hero = () => {
             display: "flex",
             flexDirection: "column",
           }}
-        
         >
           <Typography variant="h4">
             Find a Professional Mentor right for you!
@@ -36,19 +39,33 @@ const Hero = () => {
           <Button variant="contained">Get Started</Button>
         </Box>
       </Paper>
-      
-      <Paper sx={{width: "70%", margin: "-30px auto"}}>
+
+      <Paper elevation={0} sx={{ width: "70%", margin: "-50px auto", padding: "15px" }}>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <p>xs=8</p>
+          <Grid item xs={4} >
+            <Box sx={{padding: "20px", borderRight: "1px solid gray", textAlign: "center", marginLeft: "20px" }}>
+            <IconButton sx={{ p: 0 }}>
+              <LockIcon color="primary" h={10} />
+            </IconButton>
+            <Typography variant="body1">Our Mentors are honest and confidential</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={4} >
+            <Box sx={{padding: "20px", textAlign: "center", marginLeft: "20px", borderRight: "1px solid gray" }}>
+            <IconButton sx={{ p: 0 }}>
+              <AllOutIcon color="primary" h={10} />
+            </IconButton>
+            <Typography variant="body1">We provide good guidance and counsel</Typography>
+            </Box>
           </Grid>
           <Grid item xs={4}>
-            <p>xs=4</p>
+            <Box sx={{padding: "20px", textAlign: "center", marginLeft: "20px" }}>
+            <IconButton sx={{ p: 0 }}>
+              <CoPresentIcon color="primary" h={10} />
+            </IconButton>
+            <Typography variant="body1">Shares knowledge and life experiences</Typography>
+            </Box>
           </Grid>
-          <Grid item xs={4}>
-            <p>xs=4</p>
-          </Grid>
-         
         </Grid>
       </Paper>
     </div>
