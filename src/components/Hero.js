@@ -27,6 +27,7 @@ const Hero = () => {
             display: "flex",
             flexDirection: "column",
           }}
+        
         >
           <Typography variant="h4">
             Find a Professional Mentor right for you!
@@ -36,16 +37,16 @@ const Hero = () => {
         </Box>
       </Paper>
       
-      <Paper>
+      <Paper sx={{width: "70%", margin: "-30px auto"}}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Item>xs=8</Item>
+            <p>xs=8</p>
           </Grid>
           <Grid item xs={4}>
-            <Item>xs=4</Item>
+            <p>xs=4</p>
           </Grid>
           <Grid item xs={4}>
-            <Item>xs=4</Item>
+            <p>xs=4</p>
           </Grid>
          
         </Grid>
