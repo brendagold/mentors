@@ -3,6 +3,7 @@ import NavBar from './components/AppBar';
 import Hero from './components/Hero';
 import Mentors from './components/Mentors';
 import Note from './components/Note';
+import Testimonial from './components/Testimonial';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
      <Hero />
      <Note />
      <Mentors />
+     <Testimonial />
     </div>
   );
 }
