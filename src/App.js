@@ -1,6 +1,7 @@
 import './App.css';
 import NavBar from './components/AppBar';
 import Hero from './components/Hero';
+import Mentors from './components/Mentors';
 import Note from './components/Note';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
      <NavBar />
      <Hero />
      <Note />
+     <Mentors />
     </div>
   );
 }

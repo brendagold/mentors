@@ -32,7 +32,7 @@ const Hero = () => {
             flexDirection: "column",
           }}
         >
-          <Typography variant="h4">
+          <Typography variant="h4" sx={{fontSize: {xs: "20px", md: "35px"}, fontWeight: "bold"}}>
             Find a Professional Mentor right for you!
           </Typography>
           <Typography variant="h6">We have you covered</Typography>
@@ -40,10 +40,10 @@ const Hero = () => {
         </Box>
       </Paper>
 
-      <Paper elevation={0} sx={{ width: "70%", margin: "-70px auto 20px", padding: "15px" }}>
+      <Paper elevation={0} sx={{ width: {md:"70%", xs: "100%"}, margin: "-70px auto 20px", padding: "15px" }}>
         <Grid container spacing={2}>
           <Grid item xs={4} >
-            <Box sx={{padding: "20px", borderRight: "1px solid gray", textAlign: "center", marginLeft: "20px" }}>
+            <Box sx={{padding: {md: "20px", xs: "5px"}, borderRight: "1px solid gray", textAlign: "center", marginLeft: {md: "20px", xs: "0px"} }}>
             <IconButton  size="large" sx={{ p: 0 , marginBottom: "10px"}}>
               <LockIcon color="primary" fontSize="50px" />
             </IconButton>
@@ -51,16 +51,16 @@ const Hero = () => {
             </Box>
           </Grid>
           <Grid item xs={4} >
-            <Box sx={{padding: "20px", textAlign: "center", marginLeft: "20px", borderRight: "1px solid gray" }}>
-            <IconButton sx={{ p: 0 }}>
+            <Box sx={{padding: {md: "20px", xs: "5px"}, borderRight: "1px solid gray", textAlign: "center", marginLeft: {md: "20px", xs: "0px"} }}>
+            <IconButton sx={{ p: 0 , marginBottom: "10px"}}>
               <AllOutIcon color="primary" h={10} />
             </IconButton>
             <Typography variant="body1">We provide good guidance and counsel</Typography>
             </Box>
           </Grid>
           <Grid item xs={4}>
-            <Box sx={{padding: "20px", textAlign: "center", marginLeft: "20px" }}>
-            <IconButton sx={{ p: 0 }}>
+            <Box sx={{padding: {md: "20px", xs: "5px"}, textAlign: "center", marginLeft: {md: "20px", xs: "0px"} }}>
+            <IconButton sx={{ p: 0 , marginBottom: "10px"}}>
               <CoPresentIcon color="primary" h={10} />
             </IconButton>
             <Typography variant="body1">Shares knowledge and life experiences</Typography>
