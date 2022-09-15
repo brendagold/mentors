@@ -40,12 +40,12 @@ const Hero = () => {
         </Box>
       </Paper>
 
-      <Paper elevation={0} sx={{ width: "70%", margin: "-50px auto", padding: "15px" }}>
+      <Paper elevation={0} sx={{ width: "70%", margin: "-70px auto 20px", padding: "15px" }}>
         <Grid container spacing={2}>
           <Grid item xs={4} >
             <Box sx={{padding: "20px", borderRight: "1px solid gray", textAlign: "center", marginLeft: "20px" }}>
-            <IconButton sx={{ p: 0 }}>
-              <LockIcon color="primary" h={10} />
+            <IconButton  size="large" sx={{ p: 0 , marginBottom: "10px"}}>
+              <LockIcon color="primary" fontSize="50px" />
             </IconButton>
             <Typography variant="body1">Our Mentors are honest and confidential</Typography>
             </Box>
