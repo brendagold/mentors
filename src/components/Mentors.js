@@ -27,7 +27,7 @@ const styles = {
     display: "block",
     transition: ".5s ease",
     backfaceVisibility: "hidden",
-    
+  
     
   },
   mentorContent: {
@@ -85,25 +85,41 @@ const Mentors = () => {
             </Box>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Box sx={{ padding: "5px" }}>
+          <Box style={styles.mentorContainer}>
               <img
-                alt="hehehe"
+                alt="hehe"
                 src={profilePic}
-                style={{ height: "300px", width: "350px", borderRadius: "8px" }}
-                
+                className="mentorImg"
+                style={styles.mentorImage}
               />
+
+             <div className="mentorCont" style={styles.mentorContent}>
+              <Button variant="contained" color="primary" sx={{fontWeight: "bold"}}>Request</Button>
+                
+              </div>
+              <div style={styles.mentorInfo} >
+                  <Typography variant="h5">Jopeters</Typography>
+                  <Typography variant="body2"> WordPress Expert</Typography>
+                </div>
             </Box>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Box sx={{ padding: "5px" }}>
+          <Box style={styles.mentorContainer}>
               <img
-                alt="heheheehe"
+                alt="hehe"
                 src={profilePic}
-                style={{ height: "300px", width: "350px", borderRadius: "8px" }}
+                className="mentorImg"
+                style={styles.mentorImage}
               />
-              <div className="mentorCont">
-                <div class="text">John Doe</div>
+
+             <div className="mentorCont" style={styles.mentorContent}>
+              <Button variant="contained" color="primary" sx={{fontWeight: "bold"}}>Request</Button>
+                
               </div>
+              <div style={styles.mentorInfo} >
+                  <Typography variant="h5">Jopeters</Typography>
+                  <Typography variant="body2"> WordPress Expert</Typography>
+                </div>
             </Box>
           </Grid>
         </Grid>
