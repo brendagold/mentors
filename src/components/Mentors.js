@@ -6,19 +6,18 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { borderRadius } from "@mui/system";
-import React from "react";
+
+import React, {useState} from "react";
 import profilePic from "../images/jd.jpeg";
 
 const styles = {
   mentorContainer: {
-    backgroundColor: "red",
     padding: "5px",
     width: "100%",
     position: "relative",
-    "&:hover": {
-        backgroundColor: "blue"
-    },
+    '&:hover $mentorContent': {
+      opacity: "1"
+  },
   },
   mentorImage: {
     height: "300px",
@@ -28,19 +27,30 @@ const styles = {
     display: "block",
     transition: ".5s ease",
     backfaceVisibility: "hidden",
+    
+    
   },
   mentorContent: {
     transition: ".5s ease",
-    opacity: "0",
+    opacity: "1",
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     textAlign: "center",
+    
   },
+  mentorInfo: {
+    color: "white",
+    position: "absolute",
+    top: "75%",
+    left: "5%",
+    
+  }
 };
 
 const Mentors = () => {
+  const [show, setShow] = useState(false)
   return (
     <div style={{ backgroundColor: "#e5e5e5" }}>
       <Typography
@@ -63,9 +73,15 @@ const Mentors = () => {
                 className="mentorImg"
                 style={styles.mentorImage}
               />
-              <div className="mentorCont" style={styles.mentorContent}>
-                <div class="text">John Doe</div>
+
+             <div className="mentorCont" style={styles.mentorContent}>
+              <Button variant="contained" color="primary" sx={{fontWeight: "bold"}}>Request</Button>
+                
               </div>
+              <div style={styles.mentorInfo} >
+                  <Typography variant="h5">Jopeters</Typography>
+                  <Typography variant="body2"> WordPress Expert</Typography>
+                </div>
             </Box>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -74,6 +90,7 @@ const Mentors = () => {
                 alt="hehehe"
                 src={profilePic}
                 style={{ height: "300px", width: "350px", borderRadius: "8px" }}
+                
               />
             </Box>
           </Grid>
@@ -84,6 +101,9 @@ const Mentors = () => {
                 src={profilePic}
                 style={{ height: "300px", width: "350px", borderRadius: "8px" }}
               />
+              <div className="mentorCont">
+                <div class="text">John Doe</div>
+              </div>
             </Box>
           </Grid>
         </Grid>
