@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PeopleIcon from "@mui/icons-material/People";
+import { Link } from "react-router-dom";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -157,7 +158,8 @@ const NavBar = () => {
             </Box>
           ) : (
             <MenuItem>
-              <Typography textAlign="center">Sign In / Sign Up</Typography>
+            <Link to="/signup" style={{textDecoration: "none", color: "white"}}>Sign In / Sign Up</Link>
+              {/* <Typography textAlign="center"></Typography> */}
             </MenuItem>
           )}
         </Toolbar>

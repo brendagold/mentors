@@ -4,6 +4,7 @@ import NavBar from './components/AppBar';
 import Footer from './components/Footer';
 import Main from './components/Main';
 import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 
 
 
@@ -15,7 +16,7 @@ function App() {
      <Routes>
         <Route exact path="/" element={<Main />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
      <Footer />
     </div>
