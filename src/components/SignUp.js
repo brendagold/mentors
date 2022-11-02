@@ -141,7 +141,7 @@ const SignUp = () => {
 
         <form className={styles.form} noValidate>
           <Box
-            component="form"
+            
             sx={{ width: "50%", margin: "20px auto", paddingBottom: "50px" }}
             noValidate
             autoComplete="off"
@@ -254,10 +254,10 @@ const SignUp = () => {
             >
               Create Account
             </Button>
-          </Box>
+          </Box><Notification notify={notify} setNotify={setNotify} />
         </form>
       </div>
-      <Notification notify={notify} setNotify={setNotify} />
+      
       
     </div>
   );
