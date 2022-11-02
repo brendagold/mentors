@@ -8,15 +8,80 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useState } from "react";
+import signupData from "../utils/signupData";
 import { Link } from "react-router-dom";
+import Notification from "./Notification";
 
 const SignUp = () => {
-  const [expertise, setExpertise] = React.useState('');
+  const [formData, setFormData] = useState(signupData);
+  const [errors, setErrors] = useState({});
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
-  const handleChange = (event) => {
-    setExpertise(event.target.value);
+
+  const validate = (fieldValues = formData) => {
+    let temp = { ...errors };
+    if ("firstname" in fieldValues)
+      temp.firstName = fieldValues.firstName ? "" : "This field is required.";
+    if ("lastname" in fieldValues)
+      temp.lastName = fieldValues.lastName ? "" : "This field is required.";
+    if ("email" in fieldValues) {
+      temp.email =
+        (/$^|.+@.+..+/.test(fieldValues.email) ? "" : "Email is not valid.") ||
+        (fieldValues.email.length !== 0 ? "" : "Email Address is required.");
+    }
+    if ("password" in fieldValues)
+      temp.password = fieldValues.password ? "" : "This field is required.";
+    if ("address" in fieldValues)
+      temp.address = fieldValues.address ? "" : "This field is required.";
+    if ("bio" in fieldValues)
+      temp.bio = fieldValues.bio ? "" : "This field is required.";
+    if ("occupation" in fieldValues)
+      temp.occupation = fieldValues.occupation ? "" : "This field is required.";
+
+    setErrors({
+      ...temp,
+    });
+
+    if (fieldValues === formData) {
+      return Object.values(temp).every((x) => x === "");
+    }
+  };
+
+  const handleChange = (evt) => {
+    const { name, checked, value, type } = evt.target;
+    evt.preventDefault();
+    const currentValue = type === "checkbox" ? checked : value;
+    setFormData({ ...formData, [name]: currentValue });
+    validate({ [name]: currentValue });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (validate()) {
+      console.log(formData)
+      setNotify({
+        isOpen: true,
+        message: "Registration Successful",
+        type: "success",
+      });
+      // Create a local Storage if none exist
+      // if (localStorage.getItem("formData") === null) {
+      //   localStorage.setItem("formData", "[]");
+      // }
+      // addRegisterUser();
+    } else {
+      
+      setNotify({
+        isOpen: true,
+        message: "Some Required Field(s) Missing",
+        type: "error",
+      });
+    }
   };
 
   const styles = {
@@ -25,7 +90,7 @@ const SignUp = () => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      backgroundColor: "red"
+      backgroundColor: "red",
     },
 
     form: {
@@ -33,14 +98,27 @@ const SignUp = () => {
       marginTop: "10px",
     },
     submit: {
-      
-      marginTop: "30px"
+      marginTop: "30px",
     },
   };
   return (
-    <div style={{backgroundColor: "white", width: "50%", margin: "10px auto", padding: "30px auto" }}>
+    <div
+      style={{
+        backgroundColor: "white",
+        width: "50%",
+        margin: "10px auto",
+        padding: "30px auto",
+      }}
+    >
       <div className={styles.paper}>
-        <Box style={{ textAlign: "center", margin: "80px auto", padding: "0 60px", paddingTop: "40px" }}>
+        <Box
+          style={{
+            textAlign: "center",
+            margin: "80px auto",
+            padding: "0 60px",
+            paddingTop: "40px",
+          }}
+        >
           <Typography
             component="h2"
             variant="h3"
@@ -64,7 +142,7 @@ const SignUp = () => {
         <form className={styles.form} noValidate>
           <Box
             component="form"
-            sx={{ width: "50%", margin: "20px auto" , paddingBottom: "50px"}}
+            sx={{ width: "50%", margin: "20px auto", paddingBottom: "50px" }}
             noValidate
             autoComplete="off"
           >
@@ -74,6 +152,7 @@ const SignUp = () => {
                 name="firstName"
                 variant="standard"
                 fullWidth
+                onChange={handleChange}
                 required
                 id="firstName"
                 label="First Name"
@@ -84,6 +163,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="lastName"
                 label="Last Name"
                 name="lastName"
@@ -94,6 +174,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -104,6 +185,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 name="password"
                 label="Password"
                 type="password"
@@ -115,6 +197,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="address"
                 label="Address"
                 name="address"
@@ -124,6 +207,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="bio"
                 label="Bio"
                 name="bio"
@@ -133,6 +217,7 @@ const SignUp = () => {
                 variant="standard"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="occupation"
                 label="Occupation"
                 name="occupation"
@@ -140,12 +225,12 @@ const SignUp = () => {
               />
               <FormControl variant="standard" fullWidth>
                 <InputLabel id="demo-simple-select-standard-label">
-                  Age
+                  Expertise
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={expertise}
+                  value={formData.expertise}
                   onChange={handleChange}
                   label="Expertise"
                   required
@@ -164,13 +249,16 @@ const SignUp = () => {
               fullWidth
               variant="contained"
               color="primary"
+              onSubmit={handleSubmit}
               sx={styles.submit}
             >
-             Create Account
+              Create Account
             </Button>
           </Box>
         </form>
       </div>
+      <Notification notify={notify} setNotify={setNotify} />
+      
     </div>
   );
 };
