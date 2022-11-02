@@ -19,7 +19,7 @@ const SignUp = () => {
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
-    type: "",
+    type: "warning",
   });
 
 
@@ -63,7 +63,7 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validate()) {
-      console.log(formData)
+      alert(formData)
       setNotify({
         isOpen: true,
         message: "Registration Successful",
@@ -149,11 +149,12 @@ const SignUp = () => {
             <div>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="firstname"
                 variant="standard"
                 fullWidth
                 onChange={handleChange}
                 required
+                value={formData.firstname}
                 id="firstName"
                 label="First Name"
                 autoFocus
@@ -164,9 +165,10 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.lastname}
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="lastname"
                 autoComplete="lname"
               />
 
@@ -175,6 +177,7 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.email}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -186,6 +189,7 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.password}
                 name="password"
                 label="Password"
                 type="password"
@@ -198,6 +202,7 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.address}
                 id="address"
                 label="Address"
                 name="address"
@@ -208,6 +213,7 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.bio}
                 id="bio"
                 label="Bio"
                 name="bio"
@@ -218,6 +224,7 @@ const SignUp = () => {
                 required
                 fullWidth
                 onChange={handleChange}
+                value={formData.occupation}
                 id="occupation"
                 label="Occupation"
                 name="occupation"
