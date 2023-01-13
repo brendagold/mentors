@@ -22,13 +22,12 @@ const SignUp = () => {
     type: "warning",
   });
 
-
   const validate = (fieldValues = formData) => {
     let temp = { ...errors };
     if ("firstname" in fieldValues)
-      temp.firstName = fieldValues.firstName ? "" : "This field is required.";
+      temp.firstname = fieldValues.firstname ? "" : "This field is required.";
     if ("lastname" in fieldValues)
-      temp.lastName = fieldValues.lastName ? "" : "This field is required.";
+      temp.lastname = fieldValues.lastname ? "" : "This field is required.";
     if ("email" in fieldValues) {
       temp.email =
         (/$^|.+@.+..+/.test(fieldValues.email) ? "" : "Email is not valid.") ||
@@ -42,6 +41,8 @@ const SignUp = () => {
       temp.bio = fieldValues.bio ? "" : "This field is required.";
     if ("occupation" in fieldValues)
       temp.occupation = fieldValues.occupation ? "" : "This field is required.";
+    if ("expertise" in fieldValues)
+      temp.expertise = fieldValues.expertise.length !== 0 ? "" : "This field is required.";
 
     setErrors({
       ...temp,
@@ -62,26 +63,30 @@ const SignUp = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (validate()) {
-      alert(formData)
-      setNotify({
-        isOpen: true,
-        message: "Registration Successful",
-        type: "success",
-      });
-      // Create a local Storage if none exist
-      // if (localStorage.getItem("formData") === null) {
-      //   localStorage.setItem("formData", "[]");
-      // }
-      // addRegisterUser();
-    } else {
-      
-      setNotify({
-        isOpen: true,
-        message: "Some Required Field(s) Missing",
-        type: "error",
-      });
+    try {
+      if (validate()) {
+        console.log(formData);
+        setNotify({
+          isOpen: true,
+          message: "Registration Successful",
+          type: "success",
+        });
+      } else {
+        setNotify({
+          isOpen: true,
+          message: "Some Required Field(s) Missing",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
+
+    // Create a local Storage if none exist
+    // if (localStorage.getItem("formData") === null) {
+    //   localStorage.setItem("formData", "[]");
+    // }
+    // addRegisterUser();
   };
 
   const styles = {
@@ -139,9 +144,8 @@ const SignUp = () => {
           </Link>
         </Box>
 
-        <form className={styles.form} noValidate>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <Box
-            
             sx={{ width: "50%", margin: "20px auto", paddingBottom: "50px" }}
             noValidate
             autoComplete="off"
@@ -155,9 +159,11 @@ const SignUp = () => {
                 onChange={handleChange}
                 required
                 value={formData.firstname}
-                id="firstName"
+                id="firstname"
                 label="First Name"
                 autoFocus
+                error={errors.firstname ? true : false}
+                helperText={errors.firstname}
               />
 
               <TextField
@@ -166,10 +172,12 @@ const SignUp = () => {
                 fullWidth
                 onChange={handleChange}
                 value={formData.lastname}
-                id="lastName"
+                id="lastname"
                 label="Last Name"
                 name="lastname"
                 autoComplete="lname"
+                error={errors.lastname ? true : false}
+                helperText={errors.lastname}
               />
 
               <TextField
@@ -182,6 +190,8 @@ const SignUp = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                error={errors.email ? true : false}
+                helperText={errors.email}
               />
 
               <TextField
@@ -195,6 +205,8 @@ const SignUp = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={errors.password ? true : false}
+                helperText={errors.password}
               />
 
               <TextField
@@ -207,6 +219,8 @@ const SignUp = () => {
                 label="Address"
                 name="address"
                 autoComplete="address"
+                error={errors.address ? true : false}
+                helperText={errors.address}
               />
               <TextField
                 variant="standard"
@@ -218,6 +232,8 @@ const SignUp = () => {
                 label="Bio"
                 name="bio"
                 autoComplete=""
+                error={errors.bio ? true : false}
+                helperText={errors.bio}
               />
               <TextField
                 variant="standard"
@@ -229,6 +245,8 @@ const SignUp = () => {
                 label="Occupation"
                 name="occupation"
                 autoComplete=""
+                error={errors.occupation ? true : false}
+                helperText={errors.occupation}
               />
               <FormControl variant="standard" fullWidth>
                 <InputLabel id="demo-simple-select-standard-label">
@@ -237,10 +255,13 @@ const SignUp = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
+                  name="expertise"
                   value={formData.expertise}
                   onChange={handleChange}
                   label="Expertise"
+                  error={errors.expertise ? true : false}
                   required
+                  
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -256,16 +277,14 @@ const SignUp = () => {
               fullWidth
               variant="contained"
               color="primary"
-              onSubmit={handleSubmit}
               sx={styles.submit}
             >
               Create Account
             </Button>
-          </Box><Notification notify={notify} setNotify={setNotify} />
+          </Box>
+          <Notification notify={notify} setNotify={setNotify} />
         </form>
       </div>
-      
-      
     </div>
   );
 };
