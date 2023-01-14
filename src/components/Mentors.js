@@ -9,6 +9,7 @@ import {
 
 import React, {useState} from "react";
 import profilePic from "../images/jd.jpeg";
+import useFetch from './../hooks/useFetch';
 
 const styles = {
   mentorContainer: {
@@ -27,6 +28,8 @@ const styles = {
     display: "block",
     transition: ".5s ease",
     backfaceVisibility: "hidden",
+    backgroundColor: "black",
+    filter: "brightness(50%)"
   
     
   },
@@ -51,6 +54,9 @@ const styles = {
 
 const Mentors = () => {
   const [show, setShow] = useState(false)
+  const {data, error, loading, reFetch} = useFetch('http://localhost:8000/mentors')
+  
+  console.log(data)
   return (
     <div style={{ backgroundColor: "#e5e5e5" }}>
       <Typography
@@ -65,11 +71,14 @@ const Mentors = () => {
           spacing={2}
           sx={{ width: { md: "100%", xs: "100%" }, margin: "0 auto" }}
         >
-          <Grid item xs={12} md={4}>
+          {loading ? "Loading" :
+          
+            data.map((item) => (
+              <Grid item xs={12} md={4} key={item.mentorid}>
             <Box style={styles.mentorContainer}>
               <img
                 alt="hehe"
-                src={profilePic}
+                src={item.profile_img}
                 className="mentorImg"
                 style={styles.mentorImage}
               />
@@ -79,49 +88,16 @@ const Mentors = () => {
                 
               </div>
               <div style={styles.mentorInfo} >
-                  <Typography variant="h5">Jopeters</Typography>
-                  <Typography variant="body2"> WordPress Expert</Typography>
+                  <Typography variant="h5">{item.firstname} {item.lastname}</Typography>
+                  <Typography variant="body2"> {item.occupation}</Typography>
                 </div>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4}>
-          <Box style={styles.mentorContainer}>
-              <img
-                alt="hehe"
-                src={profilePic}
-                className="mentorImg"
-                style={styles.mentorImage}
-              />
-
-             <div className="mentorCont" style={styles.mentorContent}>
-              <Button variant="contained" color="primary" sx={{fontWeight: "bold"}}>Request</Button>
-                
-              </div>
-              <div style={styles.mentorInfo} >
-                  <Typography variant="h5">Jopeters</Typography>
-                  <Typography variant="body2"> WordPress Expert</Typography>
-                </div>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
-          <Box style={styles.mentorContainer}>
-              <img
-                alt="hehe"
-                src={profilePic}
-                className="mentorImg"
-                style={styles.mentorImage}
-              />
-
-             <div className="mentorCont" style={styles.mentorContent}>
-              <Button variant="contained" color="primary" sx={{fontWeight: "bold"}}>Request</Button>
-                
-              </div>
-              <div style={styles.mentorInfo} >
-                  <Typography variant="h5">Jopeters</Typography>
-                  <Typography variant="body2"> WordPress Expert</Typography>
-                </div>
-            </Box>
-          </Grid>
+            ))
+          }
+          
+          
+          
         </Grid>
       </Paper>
     </div>

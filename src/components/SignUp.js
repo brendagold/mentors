@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import signupData from "../utils/signupData";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
+import useFetch from './../hooks/useFetch';
 
 const SignUp = () => {
   const [formData, setFormData] = useState(signupData);
@@ -21,6 +22,8 @@ const SignUp = () => {
     message: "",
     type: "warning",
   });
+  const {data, error, loading, reFetch} = useFetch('http://localhost:8000/api/users')
+  console.log(data)
 
   const validate = (fieldValues = formData) => {
     let temp = { ...errors };
