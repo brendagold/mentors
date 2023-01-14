@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,16 +12,24 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PeopleIcon from "@mui/icons-material/People";
+import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [data, setData] = useState({});
+  const { user } = useContext(AuthContext);
 
+  useEffect(() => {
+    setData(jwt_decode(user.data.accessToken));
+  }, [user]);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -115,7 +123,13 @@ const NavBar = () => {
           >
             FREEMENTORS
           </Typography>
-          <Box sx={{ flexGrow: 1, justifyContent: "center", display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -126,7 +140,9 @@ const NavBar = () => {
               </Button>
             ))}
           </Box>
-          {isLoggedIn ? (
+          {user ? (
+            data.firstname
+          ) : isLoggedIn ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -158,7 +174,12 @@ const NavBar = () => {
             </Box>
           ) : (
             <MenuItem>
-            <Link to="/signup" style={{textDecoration: "none", color: "white"}}>Sign In / Sign Up</Link>
+              <Link
+                to="/signup"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Sign In / Sign Up
+              </Link>
               {/* <Typography textAlign="center"></Typography> */}
             </MenuItem>
           )}

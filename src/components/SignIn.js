@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignIn = () => {
   const [credentials, setCredentials] = useState({
@@ -10,7 +11,7 @@ const SignIn = () => {
   });
 
   const { loading, error, dispatch } = useContext(AuthContext);
-
+  const navigate = useNavigate()
   const styles = {
     paper: {
       marginTop: "14px",
@@ -30,8 +31,20 @@ const SignIn = () => {
   };
 
   const handleChange = (e) => {
-    setCredentials((prev) => ({...prev, [e.target.id]: e.target.value}))
-  }
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.post("http://localhost:8000/auth/signin", credentials);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      navigate('/')
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    }
+  };
 
   return (
     <div
@@ -73,7 +86,6 @@ const SignIn = () => {
 
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <Box
-            component="form"
             sx={{ width: "50%", margin: "20px auto", paddingBottom: "50px" }}
             noValidate
             autoComplete="off"
@@ -108,6 +120,7 @@ const SignIn = () => {
               variant="contained"
               color="primary"
               sx={styles.submit}
+              disabled={loading}
             >
               Sign in
             </Button>
