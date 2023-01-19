@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Fab,
   FormControl,
   InputLabel,
   MenuItem,
@@ -8,22 +9,29 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import { useState, useMemo } from "react";
 import signupData from "../utils/signupData";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
-import useFetch from './../hooks/useFetch';
+import useFetch from "./../hooks/useFetch";
 
 const SignUp = () => {
   const [formData, setFormData] = useState(signupData);
   const [errors, setErrors] = useState({});
+  const [thumbnail, setThumbnail] = useState(null);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "warning",
   });
-  const {data, error, loading, reFetch} = useFetch('http://localhost:8000/api/users')
-  console.log(data)
+  const { data, error, loading, reFetch } = useFetch(
+    "http://localhost:8000/api/users"
+  );
+
+  const preview = useMemo(() => {
+    return thumbnail ? URL.createObjectURL(thumbnail) : null;
+  }, [thumbnail]);
 
   const validate = (fieldValues = formData) => {
     let temp = { ...errors };
@@ -45,7 +53,8 @@ const SignUp = () => {
     if ("occupation" in fieldValues)
       temp.occupation = fieldValues.occupation ? "" : "This field is required.";
     if ("expertise" in fieldValues)
-      temp.expertise = fieldValues.expertise.length !== 0 ? "" : "This field is required.";
+      temp.expertise =
+        fieldValues.expertise.length !== 0 ? "" : "This field is required.";
 
     setErrors({
       ...temp,
@@ -109,6 +118,13 @@ const SignUp = () => {
       marginTop: "30px",
     },
   };
+
+  const fileSelectedHandler = (e) => {
+    //console.log(e.target.files[0])
+    setThumbnail(e.target.files[0]);
+    setFormData({ ...formData, profile_img: e.target.files[0] });
+  };
+  
   return (
     <div
       style={{
@@ -154,6 +170,31 @@ const SignUp = () => {
             autoComplete="off"
           >
             <div>
+              {thumbnail && (
+                <img
+                  src={preview}
+                  style={{ maxWidth: "200px" }}
+                  alt="upload icon"
+                />
+              )}
+              <label htmlFor="upload-photo">
+                <input
+                  style={{ display: "none" }}
+                  id="upload-photo"
+                  name="upload-photo"
+                  type="file"
+                  onChange={fileSelectedHandler}
+                />
+                <Button
+                  color="primary"
+                  aria-label="add"
+                  variant="contained"
+                  component="span"
+                >
+                  {thumbnail ? "Choose another photo" : "Upload Photo"}
+                </Button>
+              </label>
+
               <TextField
                 autoComplete="fname"
                 name="firstname"
@@ -264,7 +305,6 @@ const SignUp = () => {
                   label="Expertise"
                   error={errors.expertise ? true : false}
                   required
-                  
                 >
                   <MenuItem value="">
                     <em>None</em>

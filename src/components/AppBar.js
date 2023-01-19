@@ -28,7 +28,10 @@ const NavBar = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    setData(jwt_decode(user.data.accessToken));
+    if(user) {
+      setData(jwt_decode(user.data.accessToken));
+    }
+    
   }, [user]);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
