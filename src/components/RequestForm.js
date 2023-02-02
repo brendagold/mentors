@@ -1,4 +1,4 @@
-import { Box, Button, TextareaAutosize, TextField } from "@mui/material";
+import { Box, Button, TextareaAutosize } from "@mui/material";
 import React from "react";
 
 const RequestForm = () => {
@@ -23,7 +23,7 @@ const RequestForm = () => {
         minRows={6}
         aria-label="maximum height"
         placeholder="Enter your question here"
-        style={{ width: 200 }}
+        style={{ width: 300 }}
       />
       <Button
         type="submit"
