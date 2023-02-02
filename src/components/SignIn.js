@@ -10,7 +10,7 @@ const SignIn = () => {
     password: undefined,
   });
 
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const { loading, dispatch } = useContext(AuthContext);
   const navigate = useNavigate()
   const styles = {
     paper: {

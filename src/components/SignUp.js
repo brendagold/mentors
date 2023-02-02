@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Fab,
   FormControl,
   InputLabel,
   MenuItem,
@@ -9,12 +8,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import signupData from "../utils/signupData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Notification from "./Notification";
-import useFetch from "./../hooks/useFetch";
+import { AuthContext } from "./../context/AuthContext";
+import axios from "axios";
 
 const SignUp = () => {
   const [formData, setFormData] = useState(signupData);
@@ -25,10 +24,8 @@ const SignUp = () => {
     message: "",
     type: "warning",
   });
-  const { data, error, loading, reFetch } = useFetch(
-    "http://localhost:8000/api/users"
-  );
-
+  const { loading, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
   const preview = useMemo(() => {
     return thumbnail ? URL.createObjectURL(thumbnail) : null;
   }, [thumbnail]);
@@ -73,17 +70,36 @@ const SignUp = () => {
     validate({ [name]: currentValue });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    
     try {
       if (validate()) {
-        console.log(formData);
-        setNotify({
-          isOpen: true,
-          message: "Registration Successful",
-          type: "success",
-        });
+        console.log(formData)
+        dispatch({ type: "LOGIN_START" });
+        try {
+          const res = await axios.post(
+            "http://localhost:8000/auth/signup",
+            formData, {
+              headers: {
+                'content-type': 'multipart/form-data'
+              }
+            }
+          );
+          console.log(res.data);
+          dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+          setNotify({
+            isOpen: true,
+            message: "Registration Successful",
+            type: "success",
+          });
+          navigate("/");
+        } catch (err) {
+          dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+          console.log(err.response.data)
+        }
       } else {
+
         setNotify({
           isOpen: true,
           message: "Some Required Field(s) Missing",
@@ -120,11 +136,11 @@ const SignUp = () => {
   };
 
   const fileSelectedHandler = (e) => {
-    //console.log(e.target.files[0])
+    console.log(e.target.files[0])
     setThumbnail(e.target.files[0]);
     setFormData({ ...formData, profile_img: e.target.files[0] });
   };
-  
+
   return (
     <div
       style={{
@@ -163,7 +179,7 @@ const SignUp = () => {
           </Link>
         </Box>
 
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+        <form encType="multipart/form-data" className={styles.form} onSubmit={handleSubmit} noValidate>
           <Box
             sx={{ width: "50%", margin: "20px auto", paddingBottom: "50px" }}
             noValidate
@@ -177,6 +193,7 @@ const SignUp = () => {
                   alt="upload icon"
                 />
               )}
+              <p style={{color: "red", fontSize: "10px", fontWeight: "bold"}}>Image should not be more than 2.5MB</p>
               <label htmlFor="upload-photo">
                 <input
                   style={{ display: "none" }}
@@ -190,8 +207,9 @@ const SignUp = () => {
                   aria-label="add"
                   variant="contained"
                   component="span"
+                  style={{marginBottom: "20px"}}
                 >
-                  {thumbnail ? "Choose another photo" : "Upload Photo"}
+                  {thumbnail ? "Choose another photo" : "Upload a Photo"}
                 </Button>
               </label>
 
@@ -321,6 +339,7 @@ const SignUp = () => {
               variant="contained"
               color="primary"
               sx={styles.submit}
+              disabled={loading}
             >
               Create Account
             </Button>
