@@ -68,7 +68,7 @@ export default function MentorsCard({data}) {
                         aria-describedby="modal-modal-description"
                       >
                         <Box sx={styles.modalStyle}>
-                          <RequestForm />
+                          <RequestForm mentorId={data.mentorid} />
                         </Box>
                       </Modal>
                     </div>

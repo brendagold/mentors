@@ -1,45 +1,48 @@
 import { Box, Button, TextareaAutosize } from "@mui/material";
-import React, {useState} from "react";
+import React, {useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
- const styles = {
-    submit: {
-      fontWeight: "bold",
-      marginTop: "10px",
-      marginLeft: "30px",
-      
-    },
-    box: {
-         display: "flex",
-         flexDirection: "column",
-         justifyContent: "center",
-         alignItems: "center",
-        margin: "30px auto"
+const styles = {
+  submit: {
+    fontWeight: "bold",
+    marginTop: "10px",
+    marginLeft: "30px",
+  },
+  box: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "30px auto",
+  },
+};
+const RequestForm = ({ mentorId }) => {
+  const [request, setRequest] = useState("");
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setRequest(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8000/sessions", {
+        mentorId,
+        request,
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401 && !user) {
+        navigate("/signin");
+      }
     }
   };
-const RequestForm = () => {
- const [request, setRequest] = useState('')
- const navigate = useNavigate()
-
- const handleChange = (e) => {
-  setRequest(e.target.value)
- }
-
- const handleSubmit= async (e) => {
- e.preventDefault()
- try {
-  const res = await axios.post("http://localhost:8000/sessions", request);
-  console.log(res.data)
- } catch (error) {
-  console.log(error)
-  if (error.response.status === 401) {
-    navigate('/signin')
-  }
-  
- }
- }
- console.log(request)
+  console.log(request);
   return (
     <Box sx={styles.box}>
       <TextareaAutosize
