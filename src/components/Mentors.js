@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Paper, Typography, Modal } from "@mui/material";
 
 import React, { useState } from "react";
-import profilePic from "../images/jd.jpeg";
+import { Link } from "react-router-dom";
 import useFetch from "./../hooks/useFetch";
 import RequestForm from "./RequestForm";
 
@@ -54,13 +54,11 @@ const styles = {
 };
 
 const Mentors = () => {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { data, error, loading, reFetch } = useFetch(
-    "http://localhost:8000/mentors"
-  );
+  const { data, loading } = useFetch("http://localhost:8000/mentors");
 
   console.log(data);
   return (
@@ -113,15 +111,23 @@ const Mentors = () => {
                       <Typography variant="h5">
                         {item.firstname} {item.lastname}
                       </Typography>
-                      <Typography variant="body2">
-                        {" "}
-                        {item.occupation}
-                      </Typography>
+                      <Typography variant="body2">{item.occupation}</Typography>
                     </div>
                   </Box>
                 </Grid>
               ))}
         </Grid>
+        <Button
+          variant="contained"
+          style={{ margin: "10px auto", alignItems: "center" }}
+        >
+          <Link
+            to="/allmentors"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            View All Mentors
+          </Link>
+        </Button>
       </Paper>
     </div>
   );

@@ -6,6 +6,7 @@ import Main from './components/Main';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import RequestForm from './components/RequestForm';
+import ViewMentors from './components/ViewMentors';
 
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/" element={<Main />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/allmentors" element={<ViewMentors />} />
         <Route path="/request" element={<RequestForm />} />
       </Routes>
      <Footer />

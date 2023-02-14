@@ -4,6 +4,9 @@ import CoPresentIcon from '@mui/icons-material/CoPresent';
 import AllOutIcon from '@mui/icons-material/AllOut';
 import React from "react";
 import Image from "../images/mentors.png";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 
 const styles = {
@@ -18,6 +21,7 @@ const styles = {
 };
 
 const Hero = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div>
       <Paper elevation={0} style={styles.paperContainer}>
@@ -36,7 +40,12 @@ const Hero = () => {
             Find a Professional Mentor right for you!
           </Typography>
           <Typography variant="h6">We have you covered</Typography>
-          <Button variant="contained">Get Started</Button>
+          {!user &&
+          <Button variant="contained">
+          <Link to="/signup" style={{textDecoration: "none", color: "inherit"}}>Get Started</Link>
+          </Button>
+          }
+          
         </Box>
       </Paper>
 
