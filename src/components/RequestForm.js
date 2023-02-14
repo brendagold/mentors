@@ -1,8 +1,9 @@
 import { Box, Button, TextareaAutosize } from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const RequestForm = () => {
-  const styles = {
+ const styles = {
     submit: {
       fontWeight: "bold",
       marginTop: "10px",
@@ -17,6 +18,28 @@ const RequestForm = () => {
         margin: "30px auto"
     }
   };
+const RequestForm = () => {
+ const [request, setRequest] = useState('')
+ const navigate = useNavigate()
+
+ const handleChange = (e) => {
+  setRequest(e.target.value)
+ }
+
+ const handleSubmit= async (e) => {
+ e.preventDefault()
+ try {
+  const res = await axios.post("http://localhost:8000/sessions", request);
+  console.log(res.data)
+ } catch (error) {
+  console.log(error)
+  if (error.response.status === 401) {
+    navigate('/signin')
+  }
+  
+ }
+ }
+ console.log(request)
   return (
     <Box sx={styles.box}>
       <TextareaAutosize
@@ -24,11 +47,14 @@ const RequestForm = () => {
         aria-label="maximum height"
         placeholder="Enter your question here"
         style={{ width: 300 }}
+        value={request}
+        onChange={handleChange}
       />
       <Button
         type="submit"
         variant="contained"
         color="primary"
+        onClick={handleSubmit}
         sx={styles.submit}
       >
         Request

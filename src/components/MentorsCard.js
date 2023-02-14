@@ -43,10 +43,13 @@ export default function MentorsCard({data}) {
           <Typography component="div" variant="h5">
           {data.firstname} {data.lastname}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="p">
+          <Typography variant="subtitle1" color="text.secondary" sx={{fontWeight: "bold"}} component="p">
           {data.occupation}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="p">
+          {data.bio}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" sx={{fontWeight: "bold", fontSize: "15px"}} component="p">
             {data.expertise}
           </Typography>
           <div className="mentorCont" >

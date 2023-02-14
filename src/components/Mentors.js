@@ -119,7 +119,7 @@ const Mentors = () => {
         </Grid>
         <Button
           variant="contained"
-          style={{ margin: "10px auto", alignItems: "center" }}
+          style={{ display: "flex", margin: "30px auto", alignItems: "center", justifyContent: "center" }}
         >
           <Link
             to="/allmentors"

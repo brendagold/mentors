@@ -9,7 +9,7 @@ const ViewMentors = () => {
             
            {loading ? "Loading" : data.map((item) => (
              
-        <MentorsCard data={item} />
+        <MentorsCard key={item.id} data={item} />
             ))} 
         </div>
         

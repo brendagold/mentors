@@ -17,15 +17,16 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(false);
   const [data, setData] = useState({});
-  const { user } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     if(user) {
@@ -47,7 +48,9 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const logOut = () => {
+    dispatch({ type: "LOGOUT" });
+  };
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -112,7 +115,7 @@ const NavBar = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -144,7 +147,10 @@ const NavBar = () => {
             ))}
           </Box>
           {user ? (
-            data.firstname
+            <>
+            {data.firstname}
+            <Button onClick={logOut} sx={{color: "white", marginLeft: "10px"}}>Logout</Button>
+            </>
           ) : isLoggedIn ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -173,6 +179,9 @@ const NavBar = () => {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem  onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
               </Menu>
             </Box>
           ) : (

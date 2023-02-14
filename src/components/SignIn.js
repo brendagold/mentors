@@ -9,6 +9,7 @@ const SignIn = () => {
     email: undefined,
     password: undefined,
   });
+  const [error, setError] = useState("")
 
   const { loading, dispatch } = useContext(AuthContext);
   const navigate = useNavigate()
@@ -37,12 +38,14 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
+    setError("")
     try {
       const res = await axios.post("http://localhost:8000/auth/signin", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       navigate('/')
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+      setError(err.response.data.message)
     }
   };
 
@@ -90,6 +93,7 @@ const SignIn = () => {
             noValidate
             autoComplete="off"
           >
+            {error && <Typography sx={{color: "red", fontSize: "15px", fontWeight: "bold"}}>{error}</Typography>}
             <div>
               <TextField
                 variant="standard"
